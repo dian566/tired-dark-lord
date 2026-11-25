@@ -22,6 +22,8 @@ ENTRY = (
 def main() -> None:
     text = ENTRY
     assert 1 <= len(text) <= 600, "entry must be 1-600 characters"
+    words = text.split()
+    assert 90 <= len(words) <= 110, f"entry must be about 100 words, got {len(words)}"
     assert text.strip(), "entry must not be only whitespace"
     os.makedirs("/output", exist_ok=True)
     with open("/output/entry.txt", "w", encoding="utf-8", newline="\n") as f:
