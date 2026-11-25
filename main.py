@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
-"""The Tired Dark Lord — writes a ~100-word villain monologue to /output/entry.txt.
+# The Tired Dark Lord — emits a ~100-word villain monologue at /output/entry.txt.
+#
+# Veyra, keeper of the Hollow Bell, has already rung it a dozen times; every
+# eclipse would make the sun itself forget to rise. What wears her down is
+# never spelled out — it leaks through the pauses, the kettle left empty, the
+# chimes she keeps count of. Output is fixed: identical bytes on every run.
 
-The speaker is Veyra, ringer of the Hollow Bell: twelve rings in, each one
-making the kingdom forget a little more of itself, one more ring at the
-eclipse to make the sun forget to rise. Her tiredness never gets named —
-it lives in the pauses, the abandoned kettle, the counting of chimes.
-The program is fully deterministic: the same bytes come out on every run.
-"""
+import os as _os
 
-import os
-
-ENTRY = (
+MONOLOGUE = (
     "You came up the stair — good. Mind the third step. It bites.\n"
     "I have rung the Hollow Bell twelve times, hero, and each time the kingdom forgot a little more of itself. One more ring, at the eclipse, and the sun will forget to rise. That is the plan.\n"
     "Do you know what the bell takes from the ringer? Neither did I, the first eleven times.\n"
@@ -19,16 +17,20 @@ ENTRY = (
 )
 
 
-def main() -> None:
-    text = ENTRY
-    assert 1 <= len(text) <= 600, "entry must be 1-600 characters"
-    words = text.split()
-    assert 90 <= len(words) <= 110, f"entry must be about 100 words, got {len(words)}"
-    assert text.strip(), "entry must not be only whitespace"
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8", newline="\n") as f:
-        f.write(text)
+def run() -> None:
+    body = MONOLOGUE
+    size = len(body)
+    if not 1 <= size <= 600:
+        raise ValueError("entry must be 1-600 characters")
+    count = len(body.split())
+    if not 90 <= count <= 110:
+        raise ValueError(f"entry must be about 100 words, got {count}")
+    if not body.strip():
+        raise ValueError("entry must not be only whitespace")
+    _os.makedirs("/output", exist_ok=True)
+    with open("/output/entry.txt", "w", encoding="utf-8", newline="\n") as handle:
+        handle.write(body)
 
 
 if __name__ == "__main__":
-    main()
+    run()
